@@ -1,4 +1,4 @@
-# React project for the REact Course
+# React-donuts
 
 ## Available Scripts
 
