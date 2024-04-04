@@ -1,5 +1,7 @@
 @import '../styles/lib/normalize.scss';
-
+@import '../styles/Cart.module.scss';
+@import '../styles/Home.module.scss';
+@import '../styles/NotFound.module.scss';
 .App {
   border: 1px solid red;
   max-width: 1200px;

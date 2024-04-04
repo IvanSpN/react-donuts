@@ -1,0 +1,23 @@
+.categories {
+  ul {
+    display: flex;
+    gap: 10px;
+
+    li {
+      border: 1px solid red;
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
+      width: fit-content;
+      padding: 10px;
+      border-radius: 15px;
+      background-color: #9d84bd;
+      cursor: pointer;
+      &.active {
+        background-color: #7c9139;
+        p {
+          color: wheat;
+        }
+      }
+    }
+  }
+}

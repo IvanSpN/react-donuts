@@ -1,0 +1,129 @@
+.cart {
+}
+
+.cartContent {
+}
+
+.topSetting {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info {
+  border: 1px solid red;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  p {
+    font-size: 23px;
+    font-weight: bold;
+  }
+}
+
+.clearBtn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  border-radius: 10px;
+  p {
+    color: #b6b6b6;
+  }
+}
+
+.items {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.item {
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.description {
+  border: 1px solid red;
+  display: flex;
+  padding: 5px;
+}
+
+.descriptionText {
+  padding: 5px;
+}
+
+.quantity {
+  border: 1px solid red;
+  display: flex;
+  padding: 5px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  gap: 10px;
+  align-items: center;
+}
+
+.btnQty {
+  cursor: pointer;
+  padding: 7px;
+  width: 35px;
+  border-radius: 50%;
+}
+
+.price {
+  p {
+  }
+  display: flex;
+  align-items: center;
+
+  border: 1px solid red;
+}
+
+.deleteBtn {
+  cursor: pointer;
+  padding: 7px;
+  width: 35px;
+  border-radius: 50%;
+}
+
+.bottomInfo {
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.totalOrder {
+  border: 1px solid red;
+}
+.totalAmount {
+  border: 1px solid red;
+  span {
+    color: orange;
+  }
+}
+
+.bottomBtn {
+  display: flex;
+  padding: 15px;
+  justify-content: space-between;
+}
+
+.backBtn {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+}
+.payBtn {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: orange;
+}

@@ -1,68 +1,59 @@
 import React from 'react';
 import styles from './Sort.module.scss';
+import arrow from '../../assets/arrow-top.svg';
 
-const Sort = () => {
-  // стейт для активной категории
-  const [activeCategory, setActiveCategory] = React.useState(0);
-
+const Sort = ({ selectedOption, setSelectedOption, order, setOrder }) => {
   // стейт для POPUP открыть/закрыть
   const [activePopUp, setActivePopUp] = React.useState(false);
 
-  // стейт для выбранной опции сортировки
-  const [selectedOption, setSelectedOption] = React.useState(0);
-
   // массив параметров для сортировки
-  const sortOptions = ['популярности', 'цене', 'алфавиту'];
-
-  // массив категорий для сортировки
-  const categories = [
-    'Все',
-    'Классические',
-    'Шоколадные',
-    'Фруктовые',
-    'Ягодные',
-    'Сырные',
+  const sortOptions = [
+    { name: 'популярности', sortProperty: 'rating' },
+    { name: 'цене', sortProperty: 'price' },
+    { name: 'алфавиту', sortProperty: 'title' },
   ];
 
-  const handlerSortOptions = (index) => {
-    setSelectedOption(index);
+  const handlerSortOptions = (obj) => {
+    setSelectedOption(obj);
     setActivePopUp(false);
   };
+
+  const rotateArrow = () => {
+    setOrder(order === '-' ? '' : '-');
+  };
+
+  console.log(order);
   return (
     <div className={styles.sortBlock}>
-      <div className={styles.categories}>
-        <ul>
-          {categories.map((category, index) => (
-            <li
-              key={index}
-              className={activeCategory === index ? styles.active : ''}
-              onClick={() => setActiveCategory(index)}
-            >
-              {category}
-            </li>
-          ))}
-        </ul>
-      </div>
       <div className={styles.sortBy}>
-        Сортировать по:{' '}
+        <div
+          className={`${
+            order ? styles.arrowSort : `${styles.arrowSort} ${styles.desc}`
+          }`}
+        >
+          <img src={arrow} alt="Стрелка" onClick={rotateArrow} />
+        </div>
+        Сортировать по:
         <span
           onClick={() => {
             setActivePopUp(!activePopUp);
           }}
         >
-          {sortOptions[selectedOption]}
+          {selectedOption.name}
         </span>
       </div>
       {activePopUp && (
         <div className={styles.sortPopUp}>
           <ul>
-            {sortOptions.map((option, index) => (
+            {sortOptions.map((obj, index) => (
               <li
                 key={index}
-                onClick={() => handlerSortOptions(index)}
-                className={selectedOption === index ? styles.active : ''}
+                onClick={() => handlerSortOptions(obj)}
+                className={
+                  selectedOption.name === obj.name ? styles.active : ''
+                }
               >
-                {option}
+                {obj.name}
               </li>
             ))}
           </ul>
