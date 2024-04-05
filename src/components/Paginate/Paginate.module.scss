@@ -1,0 +1,37 @@
+.wrapper {
+  margin: 0 auto;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  li {
+    display: inline-block;
+
+    a {
+      cursor: pointer;
+      text-align: center;
+      line-height: 38px;
+      width: 40px;
+      height: 40px;
+      border-radius: 30px;
+      border: 1px solid red;
+      margin-right: 20px;
+      display: inline-block;
+
+      &:hover {
+        background-color: azure;
+        a {
+          color: red;
+        }
+      }
+    }
+  }
+
+  :global {
+    .selected {
+      a {
+        color: red;
+        background-color: azure;
+      }
+    }
+  }
+}

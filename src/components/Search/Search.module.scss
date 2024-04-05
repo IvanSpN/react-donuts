@@ -1,0 +1,23 @@
+.wrapperInputHeader {
+  position: relative;
+}
+
+.iconFind {
+  svg {
+    position: absolute;
+    top: 10px;
+    left: 8px;
+  }
+}
+
+.iconClear {
+  cursor: pointer;
+  svg {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+}
+
+.inputHeader {
+}

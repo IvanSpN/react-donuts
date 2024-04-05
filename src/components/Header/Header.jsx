@@ -5,6 +5,7 @@ import cart from '../../assets/cart.svg';
 import MyInput from '../UI/input/MyInput';
 import { Link } from 'react-router-dom';
 import MyButton from '../UI/button/MyButton';
+import Search from '../Search/Search';
 
 const Header = () => {
   return (
@@ -15,12 +16,7 @@ const Header = () => {
           <h1>...the most delicious donuts</h1>
         </div>
       </Link>
-      <div className={styles.wrapperInputHeader}>
-        <MyInput
-          className={styles.inputHeader}
-          placeholder="Найди свой пончик..."
-        />
-      </div>
+      <Search />
       <Link to="/cart">
         <MyButton className={styles.cart}>
           <span>520 Р</span>
