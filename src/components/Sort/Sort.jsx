@@ -2,7 +2,16 @@ import React from 'react';
 import styles from './Sort.module.scss';
 import arrow from '../../assets/arrow-top.svg';
 
-const Sort = ({ selectedOption, setSelectedOption, order, setOrder }) => {
+import { setOrderSort, setSelectedOption } from '../../redux/filterSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+const Sort = () => {
+  const dispatch = useDispatch();
+
+  // используем состояние выбранной категории из filterSlice
+  const orderSort = useSelector((state) => state.filter.orderSort);
+  // используем состояние выбранной категории из filterSlice
+  const selectedOption = useSelector((state) => state.filter.selectedOption);
   // стейт для POPUP открыть/закрыть
   const [activePopUp, setActivePopUp] = React.useState(false);
 
@@ -14,24 +23,23 @@ const Sort = ({ selectedOption, setSelectedOption, order, setOrder }) => {
   ];
 
   const handlerSortOptions = (obj) => {
-    setSelectedOption(obj);
+    dispatch(setSelectedOption(obj));
     setActivePopUp(false);
   };
 
-  const rotateArrow = () => {
-    setOrder(order === '-' ? '' : '-');
+  const orderMethod = () => {
+    dispatch(setOrderSort(orderSort === '-' ? '' : '-'));
   };
 
-  console.log(order);
   return (
     <div className={styles.sortBlock}>
       <div className={styles.sortBy}>
         <div
           className={`${
-            order ? styles.arrowSort : `${styles.arrowSort} ${styles.desc}`
+            orderSort ? styles.arrowSort : `${styles.arrowSort} ${styles.desc}`
           }`}
         >
-          <img src={arrow} alt="Стрелка" onClick={rotateArrow} />
+          <img src={arrow} alt="Стрелка" onClick={orderMethod} />
         </div>
         Сортировать по:
         <span

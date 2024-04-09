@@ -1,17 +1,45 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useContext } from 'react';
 import styles from './Search.module.scss';
 import MyInput from '../UI/input/MyInput';
 import { SearchContext } from '../..';
+import debounce from 'lodash.debounce';
 
 const Search = () => {
-  const { searchValue, setSearchValue } = useContext(SearchContext);
+  // стейт для хранения локального значения инпута
+  const [value, setValue] = React.useState('');
+
+  // стейт изменения значения инпута передаваемого в поиск
+  const { setSearchValue } = useContext(SearchContext);
+
+  // ссылка на DOM инпут
+  const inputRef = useRef();
+
+  // функция обновления значенеия инпута передаваемого в поиск через заданный интервал времени, оптимизируем кол-во запросов на бэк
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 1000),
+    []
+  );
+
+  const onChangeInput = (e) => {
+    setValue(e.target.value);
+    updateSearchValue(e.target.value);
+  };
+
+  // очитска инпута и фокус на инпуте после очистки
+  const onClearInput = () => {
+    setSearchValue('');
+    setValue('');
+    inputRef.current.focus();
+  };
 
   return (
     <div className={styles.wrapperInputHeader}>
       <div className={styles.iconFind}>
         <svg
-          enable-background="new 0 0 512 512"
+          enableBackground="new 0 0 512 512"
           height="18px"
           id="Layer_1"
           version="1.1"
@@ -25,8 +53,8 @@ const Search = () => {
           />
         </svg>
       </div>
-      {searchValue && (
-        <div className={styles.iconClear} onClick={() => setSearchValue('')}>
+      {value && (
+        <div className={styles.iconClear} onClick={onClearInput}>
           <svg
             fill="none"
             height="24"
@@ -43,8 +71,9 @@ const Search = () => {
       )}
 
       <MyInput
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        ref={inputRef}
+        value={value}
+        onChange={onChangeInput}
         className={styles.inputHeader}
         placeholder="Найди свой пончик..."
       />

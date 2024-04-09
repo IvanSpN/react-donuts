@@ -1,7 +1,20 @@
 import React from 'react';
 import styles from './Category.module.scss';
+import { setActiveCategory } from '../../redux/filterSlice';
 
-const Category = ({ activeCategory, setActiveCategory }) => {
+import { useDispatch, useSelector } from 'react-redux';
+
+const Category = () => {
+  const dispatch = useDispatch();
+
+  // используем состояние выбранной категории из filterSlice
+  const activeCategory = useSelector((state) => state.filter.activeCategory);
+
+  // метод изменения категории по клику
+  const onClickCategory = (index) => {
+    dispatch(setActiveCategory(index));
+  };
+
   // массив категорий для сортировки
   const categories = [
     'Все',
@@ -19,7 +32,7 @@ const Category = ({ activeCategory, setActiveCategory }) => {
             <li
               key={index}
               className={activeCategory === index ? styles.active : ''}
-              onClick={() => setActiveCategory(index)}
+              onClick={() => onClickCategory(index)}
             >
               {category}
             </li>
