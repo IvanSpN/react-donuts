@@ -5,25 +5,30 @@ import arrow from '../../assets/arrow-top.svg';
 import { setOrderSort, setSelectedOption } from '../../redux/filterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
+// массив параметров для сортировки
+export const sortList = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'title' },
+];
+
 const Sort = () => {
   const dispatch = useDispatch();
 
   // используем состояние выбранной категории из filterSlice
   const orderSort = useSelector((state) => state.filter.orderSort);
   // используем состояние выбранной категории из filterSlice
-  const selectedOption = useSelector((state) => state.filter.selectedOption);
+  const { selectedOption } = useSelector((state) => state.filter);
+
   // стейт для POPUP открыть/закрыть
   const [activePopUp, setActivePopUp] = React.useState(false);
 
-  // массив параметров для сортировки
-  const sortOptions = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'title' },
-  ];
+  // console.log('selectedOptionFromREDUX', selectedOption.name);
+  // console.log('selectedOptionName', selectedOption.name);
 
   const handlerSortOptions = (obj) => {
     dispatch(setSelectedOption(obj));
+
     setActivePopUp(false);
   };
 
@@ -53,7 +58,7 @@ const Sort = () => {
       {activePopUp && (
         <div className={styles.sortPopUp}>
           <ul>
-            {sortOptions.map((obj, index) => (
+            {sortList.map((obj, index) => (
               <li
                 key={index}
                 onClick={() => handlerSortOptions(obj)}
