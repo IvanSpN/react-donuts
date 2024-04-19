@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Paginate from '../components/Paginate/Paginate';
-import axios from 'axios';
-import qs from 'qs';
-
 import { useSelector, useDispatch } from 'react-redux';
+import qs from 'qs';
+import Paginate from '../components/Paginate/Paginate';
 
-import { SearchContext } from '..';
-import { setFilters, setCurrentPage } from '../redux/filterSlice';
+import { setFilters } from '../redux/filterSlice';
+import { fetchDonuts, setCurrentPage } from '../redux/donutsSlice';
 import Header from '../components/Header/Header';
 import DonutsBlock from '../components/DonutsBlock/DonutsBlock';
 import Sort, { sortList } from '../components/Sort/Sort';
@@ -16,71 +14,33 @@ import Category from '../components/Category/Category';
 import styles from '../styles/Home.module.scss';
 
 const Home = () => {
-  // используем состояние выбранной категории из filterSlice
-  const activeCategory = useSelector((state) => state.filter.activeCategory);
-
-  // используем состояние выбранной сортировки из filterSlice
-  const selectedOption = useSelector((state) => state.filter.selectedOption);
-
-  // используем стейт сортировки по методу ASC-DESC из RTK
-  const orderSort = useSelector((state) => state.filter.orderSort);
-
-  // используем стейт
-  const currentPage = useSelector((state) => state.filter.currentPage);
-
-  console.log('cur page from REDUX', currentPage);
-
-  // стейт всех пончиков
-  const [donuts, setDonuts] = React.useState([]);
-
-  // стейт для лоадера
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  // пагинация: кол-во отображаемых товаров на одной странице, устанавливаем сами
-  const [limit, setLimit] = React.useState(4);
-
-  // пагинация: кол-во страниц, возвращает бэк
-  const [pageCount, setPageCount] = React.useState(0);
-
-  // пагинация: текущая страница, возвращает бэк
-  // const [currentPage, setCurrentPages] = React.useState(1);
-
-  //значение из инпута поиска
-  const { searchValue } = useContext(SearchContext);
-
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
+  // используем состояние выбранной категории из filterSlice, // используем состояние выбранной сортировки из filterSlice
+  const { activeCategory, selectedOption } = useSelector(
+    (state) => state.filter
+  );
+
+  // используем стейт сортировки по методу ASC-DESC из RTK
+  const orderSort = useSelector((state) => state.filter.orderSort);
+
+  // пагинация: текущая страница, возвращает бэк,  // пагинация: всего страниц, возвращает бэк
+  const { currentPage, totalPages, items } = useSelector(
+    (state) => state.donuts
+  );
+
+  // пагинация: кол-во отображаемых товаров на одной странице, устанавливаем сами
+  const [limit, setLimit] = React.useState(4);
+
+  //значение из инпута поиска
+  const searchValue = useSelector((state) => state.filter.searchValue);
+
   // запрос на получение всех пончиков
-  const fetchDonuts = async () => {
-    setIsLoading(true);
-    // try {
-    //   const response = await fetch(
-    //     `https://dd317624db0a7664.mokky.dev/items?${title}${category}${sortBy}&page=${currentPage}&limit=${limit}`
-    //   );
-    //   const data = await response.json();
-
-    //   if (!response.ok) {
-    //     throw new Error(data.message || 'Something went wrong');
-    //   }
-
-    //   const dataDn = data.meta.current_page;
-    //   setDonuts(data.items);
-    //   setPageCount(data.meta.total_pages);
-    //   setIsLoading(false);
-    //   setCurrentPages(dataDn);
-    //   // проверка для пагинации, когда на первой странице выбираем 2ю стр-цу, затем переходим в категорию где всего 1 стр, задаем текущую страницу "1"
-    //   if (data.meta.total_pages < 2) {
-    //     setCurrentPages(1);
-    //   }
-    // } catch (error) {
-    //   console.error('Error fetching:', error.message);
-    // }
-
+  const getDonuts = async () => {
     // запрос на фильтрацию по категориям
     const category = activeCategory > 0 ? `&category=${activeCategory}` : '';
 
@@ -90,25 +50,25 @@ const Home = () => {
     // запрос на поиск по title
     const title = `title=*${searchValue.toLowerCase()}`;
 
-    axios
-      .get(
-        `https://dd317624db0a7664.mokky.dev/items?${title}${category}${sortBy}&page=${currentPage}&limit=${limit}`
-      )
-      .then((res) => {
-        // пагинация: текущая страница, возвращает бэк
-        const dataDn = res.data.meta.current_page;
-
-        setDonuts(res.data.items);
-        setPageCount(res.data.meta.total_pages);
-        setIsLoading(false);
-        dispatch(setCurrentPage(dataDn));
-
-        // проверка для пагинации, когда на первой странице выбираем 2ю стр-цу, затем переходим в категорию где всего 1 стр, задаем текущую страницу "1"
-        if (res.data.meta.total_pages < 2) {
-          dispatch(setCurrentPage(1));
-        }
-      });
+    // используем ф-ю из Redux для получения всех товаров и передаем в нее параметры
+    dispatch(
+      fetchDonuts({
+        category,
+        sortBy,
+        title,
+        currentPage,
+        limit,
+      })
+    );
   };
+
+  /*проверка для пагинации, когда на первой странице выбираем 2ю стр-цу,
+   затем переходим в категорию где всего 1 стр, задаем текущую страницу "1"*/
+  React.useEffect(() => {
+    if (totalPages < 2) {
+      dispatch(setCurrentPage(1));
+    }
+  }, [totalPages]);
 
   /* приводим к строке объект, который храниться в Redux в качестве состояния, узнает, что в Redux и вшивает это в ссылку,
   если изменили параметры и был первый рендер*/
@@ -131,7 +91,6 @@ const Home = () => {
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      console.log('object params', params);
 
       const selectedOption = sortList.find(
         (obj) => obj.sortProperty === params.sortProperty
@@ -152,7 +111,7 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!isSearch.current) {
-      fetchDonuts();
+      getDonuts();
     }
     isSearch.current = false;
   }, [activeCategory, orderSort, selectedOption, searchValue, currentPage]);
@@ -164,11 +123,11 @@ const Home = () => {
         <Category />
         <Sort />
       </div>
-      <DonutsBlock donuts={donuts} loader={isLoading} />
+      <DonutsBlock />
       <Paginate
         limit={limit}
         onChangePage={(number) => dispatch(setCurrentPage(number))}
-        pageCount={pageCount}
+        pageCount={totalPages}
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './Sort.module.scss';
 import arrow from '../../assets/arrow-top.svg';
 
@@ -14,6 +14,7 @@ export const sortList = [
 
 const Sort = () => {
   const dispatch = useDispatch();
+  const sortRef = useRef();
 
   // используем состояние выбранной категории из filterSlice
   const orderSort = useSelector((state) => state.filter.orderSort);
@@ -23,21 +24,32 @@ const Sort = () => {
   // стейт для POPUP открыть/закрыть
   const [activePopUp, setActivePopUp] = React.useState(false);
 
-  // console.log('selectedOptionFromREDUX', selectedOption.name);
-  // console.log('selectedOptionName', selectedOption.name);
-
+  // метод выбора метода сортировки
   const handlerSortOptions = (obj) => {
     dispatch(setSelectedOption(obj));
 
     setActivePopUp(false);
   };
 
+  // метод для смены метода сортировки "ASC-DESC"
   const orderMethod = () => {
     dispatch(setOrderSort(orderSort === '-' ? '' : '-'));
   };
 
+  // скрываем ПОПап при клике мимо него
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setActivePopUp(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className={styles.sortBlock}>
+    <div className={styles.sortBlock} ref={sortRef}>
       <div className={styles.sortBy}>
         <div
           className={`${

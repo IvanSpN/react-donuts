@@ -2,10 +2,13 @@ import React from 'react';
 import styles from './DonutCard.module.scss';
 import MyButton from '../UI/button/MyButton';
 
-const DonutCard = ({ title, price, sizes, types, imageUrl }) => {
-  // список для типов продукта
-  const typeList = ['Стандарт', 'Макси'];
+// список для типов продукта
+export const typeList = ['Стандарт', 'Макси'];
 
+// список для размера продукта
+export const sizeList = [3, 6, 9];
+
+const DonutCard = ({ title, price, sizes, types, imageUrl }) => {
   // стейт выбора типа продукта
   const [activeType, setActiveType] = React.useState(0);
 

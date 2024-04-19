@@ -1,11 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Header from '../components/Header/Header';
 import styles from '../styles/Cart.module.scss';
 import MyButton from '../components/UI/button/MyButton';
 import trash from '../assets/trash.svg';
-import { Link } from 'react-router-dom';
+import { fetchCartItems } from '../redux/cartSlice';
+import CartItem from '../components/CartItem';
 
 const Cart = () => {
+  const dispatch = useDispatch();
+
+  // состояние корзины с бэка
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
+  // получаем корзину с бэка, изменяем в Redux
+  const getCartItems = async () => {
+    dispatch(fetchCartItems());
+  };
+  // вызываем функцию запроса корзины с бэка
+  React.useEffect(() => {
+    getCartItems();
+  }, []);
+
+  console.log(cartItems);
   return (
     <div className={styles.cart}>
       <Header />
@@ -49,98 +68,9 @@ const Cart = () => {
           </MyButton>
         </div>
         <div className={styles.items}>
-          <div className={styles.item}>
-            <div className={styles.description}>
-              <img
-                width={50}
-                height={50}
-                src="https://krispykreme24moskva.ru/images/005/836/494/5836494/619x495/c791ebdd46e846cc84501c34fcab777b.jpg"
-                alt=""
-              />
-              <div className={styles.descriptionText}>
-                <p>Классический</p>
-                <p>Стандарт, BOX 3</p>
-              </div>
-            </div>
-            <div className={styles.quantity}>
-              <MyButton className={styles.btnQty}>-</MyButton>
-              <p>2</p>
-              <MyButton className={styles.btnQty}>+</MyButton>
-            </div>
-            <div className={styles.price}>
-              <p>770 р.</p>
-            </div>
-            <MyButton className={styles.deleteBtn}>-_-</MyButton>
-          </div>
-          <div className={styles.item}>
-            <div className={styles.description}>
-              <img
-                width={50}
-                height={50}
-                src="https://krispykreme24moskva.ru/images/005/836/494/5836494/619x495/c791ebdd46e846cc84501c34fcab777b.jpg"
-                alt=""
-              />
-              <div className={styles.descriptionText}>
-                <p>Классический</p>
-                <p>Стандарт, BOX 3</p>
-              </div>
-            </div>
-            <div className={styles.quantity}>
-              <MyButton className={styles.btnQty}>-</MyButton>
-              <p>2</p>
-              <MyButton className={styles.btnQty}>+</MyButton>
-            </div>
-            <div className={styles.price}>
-              <p>770 р.</p>
-            </div>
-            <MyButton className={styles.deleteBtn}>-_-</MyButton>
-          </div>
-          <div className={styles.item}>
-            <div className={styles.description}>
-              <img
-                width={50}
-                height={50}
-                src="https://krispykreme24moskva.ru/images/005/836/494/5836494/619x495/c791ebdd46e846cc84501c34fcab777b.jpg"
-                alt=""
-              />
-              <div className={styles.descriptionText}>
-                <p>Классический</p>
-                <p>Стандарт, BOX 3</p>
-              </div>
-            </div>
-            <div className={styles.quantity}>
-              <MyButton className={styles.btnQty}>-</MyButton>
-              <p>2</p>
-              <MyButton className={styles.btnQty}>+</MyButton>
-            </div>
-            <div className={styles.price}>
-              <p>770 р.</p>
-            </div>
-            <MyButton className={styles.deleteBtn}>-_-</MyButton>
-          </div>
-          <div className={styles.item}>
-            <div className={styles.description}>
-              <img
-                width={50}
-                height={50}
-                src="https://krispykreme24moskva.ru/images/005/836/494/5836494/619x495/c791ebdd46e846cc84501c34fcab777b.jpg"
-                alt=""
-              />
-              <div className={styles.descriptionText}>
-                <p>Классический</p>
-                <p>Стандарт, BOX 3</p>
-              </div>
-            </div>
-            <div className={styles.quantity}>
-              <MyButton className={styles.btnQty}>-</MyButton>
-              <p>2</p>
-              <MyButton className={styles.btnQty}>+</MyButton>
-            </div>
-            <div className={styles.price}>
-              <p>770 р.</p>
-            </div>
-            <MyButton className={styles.deleteBtn}>-_-</MyButton>
-          </div>
+          {cartItems?.map((item) => (
+            <CartItem key={item.id} {...item} />
+          ))}
         </div>
         <div className={styles.bottomInfo}>
           <div className={styles.totalOrder}>
@@ -156,29 +86,6 @@ const Cart = () => {
           </Link>
 
           <MyButton className={styles.payBtn}>Оплатить сейчас</MyButton>
-        </div>
-        <div className={styles.item}>
-          <div className={styles.description}>
-            <img
-              width={50}
-              height={50}
-              src="https://krispykreme24moskva.ru/images/005/836/494/5836494/619x495/c791ebdd46e846cc84501c34fcab777b.jpg"
-              alt=""
-            />
-            <div className={styles.descriptionText}>
-              <p>Классический</p>
-              <p>Стандарт, BOX 3</p>
-            </div>
-          </div>
-          <div className={styles.quantity}>
-            <MyButton className={styles.btnQty}>-</MyButton>
-            <p>2</p>
-            <MyButton className={styles.btnQty}>+</MyButton>
-          </div>
-          <div className={styles.price}>
-            <p>770 р.</p>
-          </div>
-          <MyButton className={styles.deleteBtn}>-_-</MyButton>
         </div>
       </div>
     </div>

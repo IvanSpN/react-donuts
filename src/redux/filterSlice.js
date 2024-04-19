@@ -13,8 +13,8 @@ const initialState = {
   // параметр сориторовки "по убыванию/возрастанию"
   orderSort: '',
 
-  //параметр для текущей страницы
-  currentPage: 1,
+  // стейт поиска
+  searchValue: '',
 };
 const filterSlice = createSlice({
   name: 'filter',
@@ -34,17 +34,27 @@ const filterSlice = createSlice({
     setSelectedOption(state, action) {
       state.selectedOption = action.payload;
     },
-    // метод для изменеия текущей страницы
-    setCurrentPage(state, action) {
-      state.currentPage = action.payload;
+
+    setSearchValue(state, action) {
+      state.searchValue = action.payload;
     },
 
     // метод для измениния стейтов при сохранении параметров в URL
     setFilters(state, action) {
-      state.selectedOption = action.payload.selectedOption;
-      state.activeCategory = Number(action.payload.activeCategory);
-      state.orderSort = action.payload.orderSort;
-      state.currentPage = Number(action.payload.currentPage);
+      if (Object.keys(action.payload).length) {
+        state.selectedOption = action.payload.selectedOption;
+        state.activeCategory = Number(action.payload.activeCategory);
+        state.orderSort = action.payload.orderSort;
+        state.currentPage = Number(action.payload.currentPage);
+      } else {
+        state.activeCategory = 0;
+        state.currentPage = 1;
+        state.orderSort = '';
+        state.selectedOption = {
+          name: 'популярности',
+          sortProperty: 'rating',
+        };
+      }
     },
 
     // метод для сброса всех фильтров
@@ -62,8 +72,8 @@ export const {
   setOrderSort,
   setSelectedOption,
   setFilters,
-  setCurrentPage,
   resetFilters,
+  setSearchValue,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

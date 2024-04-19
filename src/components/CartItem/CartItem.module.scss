@@ -1,0 +1,50 @@
+.item {
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.description {
+  border: 1px solid red;
+  display: flex;
+  padding: 5px;
+}
+
+.descriptionText {
+  padding: 5px;
+}
+
+.quantity {
+  border: 1px solid red;
+  display: flex;
+  padding: 5px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  gap: 10px;
+  align-items: center;
+}
+
+.btnQty {
+  cursor: pointer;
+  padding: 7px;
+  width: 35px;
+  border-radius: 50%;
+}
+
+.price {
+  p {
+  }
+  display: flex;
+  align-items: center;
+
+  border: 1px solid red;
+}
+
+.deleteBtn {
+  cursor: pointer;
+  padding: 7px;
+  width: 35px;
+  border-radius: 50%;
+}

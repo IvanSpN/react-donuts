@@ -1,4 +1,16 @@
 .wrapper {
+  padding: 30px;
+}
+
+.error {
+  h2,
+  p {
+    text-align: center;
+    padding: 15px;
+  }
+}
+
+.items {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

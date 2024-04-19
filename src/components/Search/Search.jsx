@@ -1,16 +1,16 @@
-import React, { useRef, useEffect } from 'react';
-import { useContext } from 'react';
-import styles from './Search.module.scss';
-import MyInput from '../UI/input/MyInput';
-import { SearchContext } from '../..';
+import React, { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
 
+import styles from './Search.module.scss';
+import MyInput from '../UI/input/MyInput';
+import { setSearchValue } from '../../redux/filterSlice';
+
 const Search = () => {
+  const dispatch = useDispatch();
+
   // стейт для хранения локального значения инпута
   const [value, setValue] = React.useState('');
-
-  // стейт изменения значения инпута передаваемого в поиск
-  const { setSearchValue } = useContext(SearchContext);
 
   // ссылка на DOM инпут
   const inputRef = useRef();
@@ -18,7 +18,7 @@ const Search = () => {
   // функция обновления значенеия инпута передаваемого в поиск через заданный интервал времени, оптимизируем кол-во запросов на бэк
   const updateSearchValue = React.useCallback(
     debounce((str) => {
-      setSearchValue(str);
+      dispatch(setSearchValue(str));
     }, 1000),
     []
   );
