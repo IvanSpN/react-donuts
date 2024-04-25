@@ -5,9 +5,10 @@ import cart from '../../assets/cart.svg';
 import { Link } from 'react-router-dom';
 import MyButton from '../UI/button/MyButton';
 import Search from '../Search/Search';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { resetFilters } from '../../redux/filterSlice';
-import { useDispatch } from 'react-redux';
+import { selectCart } from '../../redux/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -20,6 +21,15 @@ const Header = () => {
     dispatch(resetFilters());
   };
 
+  const { cartItems, totalPrice, totalCount } = useSelector(selectCart);
+
+  // const totalCount = cartItems.reduce((sum, item) => sum + item.count, 0);
+
+  // const totalPrice = cartItems.reduce(
+  //   (sum, item) => sum + item.price * item.count,
+  //   0
+  // );
+
   return (
     <div className={styles.header}>
       <div className={styles.logo} onClick={resetParam}>
@@ -30,11 +40,11 @@ const Header = () => {
       <Search />
       <Link to="/cart">
         <MyButton className={styles.cart}>
-          <span>520 Р</span>
+          <span>{totalPrice} Р</span>
           <div className={styles.buttonDelimiter}></div>
           <div className={styles.cartImage}>
             <img src={cart} alt="" />
-            <span>3</span>
+            <span>{totalCount}</span>
           </div>
         </MyButton>
       </Link>

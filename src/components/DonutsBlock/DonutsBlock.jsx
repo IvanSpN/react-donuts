@@ -3,9 +3,10 @@ import { useSelector } from 'react-redux';
 import styles from './DonutsBlock.module.scss';
 import DonutCard from '../DonutCard/DonutCard';
 import Skeleton from '../../loader/Skeleton';
+import { selectDonuts } from '../../redux/donutsSlice';
 
 const DonutsBlock = () => {
-  const { items, status } = useSelector((state) => state.donuts);
+  const { items, status } = useSelector(selectDonuts);
   return (
     <div className={styles.wrapper}>
       {status === 'error' ? (
@@ -20,7 +21,9 @@ const DonutsBlock = () => {
         <div className={styles.items}>
           {status === 'loading'
             ? [...new Array(10)].map((_, index) => <Skeleton key={index} />)
-            : items.map((donut) => <DonutCard key={donut.id} {...donut} />)}
+            : items.map((donut) => (
+                <DonutCard key={donut.currentId} {...donut} />
+              ))}
         </div>
       )}
     </div>

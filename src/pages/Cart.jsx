@@ -6,25 +6,33 @@ import Header from '../components/Header/Header';
 import styles from '../styles/Cart.module.scss';
 import MyButton from '../components/UI/button/MyButton';
 import trash from '../assets/trash.svg';
-import { fetchCartItems } from '../redux/cartSlice';
+import { fetchCartItems, fetchClearCart, selectCart } from '../redux/cartSlice';
 import CartItem from '../components/CartItem';
 
 const Cart = () => {
   const dispatch = useDispatch();
 
+  // статус запроса и ошибки
+  const { status, error, totalPrice, totalCount } = useSelector(selectCart);
+
   // состояние корзины с бэка
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const { cartItems } = useSelector(selectCart);
 
   // получаем корзину с бэка, изменяем в Redux
   const getCartItems = async () => {
     dispatch(fetchCartItems());
   };
+
+  // очищаем корзину с бэка
+  const handlerClearCart = () => {
+    dispatch(fetchClearCart());
+  };
+
   // вызываем функцию запроса корзины с бэка
   React.useEffect(() => {
     getCartItems();
   }, []);
 
-  console.log(cartItems);
   return (
     <div className={styles.cart}>
       <Header />
@@ -62,22 +70,26 @@ const Cart = () => {
             </svg>
             <p>Корзина</p>
           </div>
-          <MyButton className={styles.clearBtn}>
+          <MyButton className={styles.clearBtn} onClick={handlerClearCart}>
             <img src={trash} alt="Мусорное ведро" />
             <p>Очистить корзину</p>
           </MyButton>
         </div>
+        {status === 'loading' && <h2>Loading...</h2>}
+
+        {error && <h2>Произошла ошибка: {error}</h2>}
+
         <div className={styles.items}>
-          {cartItems?.map((item) => (
-            <CartItem key={item.id} {...item} />
-          ))}
+          {cartItems.map(
+            (item) => item && <CartItem key={item.id} {...item} />
+          )}
         </div>
         <div className={styles.bottomInfo}>
           <div className={styles.totalOrder}>
-            Всего пончиков: <strong>3 шт</strong>
+            Всего в заказе: <strong>{totalCount} позиций</strong>
           </div>
           <div className={styles.totalAmount}>
-            Сумма заказа: <span> 900 р</span>
+            Сумма заказа: <span> {totalPrice} р</span>
           </div>
         </div>
         <div className={styles.bottomBtn}>

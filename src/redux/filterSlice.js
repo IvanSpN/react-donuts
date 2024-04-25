@@ -67,6 +67,9 @@ const filterSlice = createSlice({
   },
 });
 
+// селект для более удобного использования, если нужно
+export const selectFilter = (state) => state.filter;
+
 export const {
   setActiveCategory,
   setOrderSort,

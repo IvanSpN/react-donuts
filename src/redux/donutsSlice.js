@@ -24,6 +24,7 @@ const initialState = {
 
   // состояние запроса на бэк
   status: 'loading',
+  error: null,
 };
 const donutsSlice = createSlice({
   name: 'donuts',
@@ -38,7 +39,7 @@ const donutsSlice = createSlice({
     builder
       .addCase(fetchDonuts.pending, (state) => {
         state.status = 'loading';
-        state.items = [];
+        // state.items = [];
       })
       .addCase(fetchDonuts.fulfilled, (state, action) => {
         state.items = action.payload.items;
@@ -52,6 +53,9 @@ const donutsSlice = createSlice({
       });
   },
 });
+
+// селект для более удобного использования, если нужно
+export const selectDonuts = (state) => state.donuts;
 
 export const { setCurrentPage } = donutsSlice.actions;
 

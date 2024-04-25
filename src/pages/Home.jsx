@@ -4,14 +4,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import Paginate from '../components/Paginate/Paginate';
 
-import { setFilters } from '../redux/filterSlice';
-import { fetchDonuts, setCurrentPage } from '../redux/donutsSlice';
+import { setFilters, selectFilter } from '../redux/filterSlice';
+import {
+  fetchDonuts,
+  setCurrentPage,
+  selectDonuts,
+} from '../redux/donutsSlice';
 import Header from '../components/Header/Header';
 import DonutsBlock from '../components/DonutsBlock/DonutsBlock';
 import Sort, { sortList } from '../components/Sort/Sort';
 import Category from '../components/Category/Category';
 
 import styles from '../styles/Home.module.scss';
+import { selectCart } from '../redux/cartSlice';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -20,24 +25,17 @@ const Home = () => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  // используем состояние выбранной категории из filterSlice, // используем состояние выбранной сортировки из filterSlice
-  const { activeCategory, selectedOption } = useSelector(
-    (state) => state.filter
-  );
-
   // используем стейт сортировки по методу ASC-DESC из RTK
-  const orderSort = useSelector((state) => state.filter.orderSort);
+  const { orderSort, searchValue, activeCategory, selectedOption } =
+    useSelector(selectFilter);
 
   // пагинация: текущая страница, возвращает бэк,  // пагинация: всего страниц, возвращает бэк
-  const { currentPage, totalPages, items } = useSelector(
-    (state) => state.donuts
-  );
+  const { currentPage, totalPages } = useSelector(selectDonuts);
+
+  const { error } = useSelector(selectCart);
 
   // пагинация: кол-во отображаемых товаров на одной странице, устанавливаем сами
   const [limit, setLimit] = React.useState(4);
-
-  //значение из инпута поиска
-  const searchValue = useSelector((state) => state.filter.searchValue);
 
   // запрос на получение всех пончиков
   const getDonuts = async () => {
@@ -123,6 +121,7 @@ const Home = () => {
         <Category />
         <Sort />
       </div>
+      {error && <h2>Произошла ошибка на сервере: {error}</h2>}
       <DonutsBlock />
       <Paginate
         limit={limit}

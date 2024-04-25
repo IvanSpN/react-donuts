@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Search.module.scss';
 import MyInput from '../UI/input/MyInput';
 import { setSearchValue } from '../../redux/filterSlice';
+import { fetchDonuts } from '../../redux/donutsSlice';
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ const Search = () => {
 
   // очитска инпута и фокус на инпуте после очистки
   const onClearInput = () => {
-    setSearchValue('');
+    dispatch(setSearchValue(''));
     setValue('');
     inputRef.current.focus();
   };

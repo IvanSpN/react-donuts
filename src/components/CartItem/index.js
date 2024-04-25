@@ -2,51 +2,97 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import MyButton from '../UI/button/MyButton';
-import { typeList } from '../DonutCard/DonutCard';
 
 import styles from './CartItem.module.scss';
-import { setCartItems, fetchDeleteItem } from '../../redux/cartSlice';
+import {
+  fetchDeleteCartItem,
+  fetchIncrementItemCart,
+  fetchDecrementItemCart,
+} from '../../redux/cartSlice';
 
-const CartItem = ({ title, price, sizes, types, imageUrl, id }) => {
+const CartItem = ({
+  title,
+  price,
+  size,
+  type,
+  imageUrl,
+  id,
+  count,
+  currentId,
+}) => {
   const dispatch = useDispatch();
 
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  // Удаляем элемент из корзины
+  const handlerDeleteItem = (id) => {
+    dispatch(fetchDeleteCartItem(id));
+  };
 
-  const handleDeleteItem = (id) => {
-    const prevSt = [...cartItems];
-    const updateCartOnFront = cartItems.filter((item) => item.id !== id);
+  // увеличиваем добавленный товар в корзине
+  const handlerIncrementItemCart = () => {
+    const newObj = {
+      title,
+      price,
+      type,
+      size,
+      count,
+      id,
+      currentId,
+    };
+    dispatch(fetchIncrementItemCart(newObj));
+  };
 
-    dispatch(setCartItems(updateCartOnFront));
-
-    dispatch(fetchDeleteItem(id, prevSt)); // Удаляем элемент из корзины
+  // уменьшаем добавленный товар в корзине
+  const handlerDecrementItemCart = () => {
+    const newObj = {
+      title,
+      price,
+      type,
+      size,
+      count,
+      id,
+      currentId,
+    };
+    dispatch(fetchDecrementItemCart(newObj));
   };
 
   return (
-    <div className={styles.item}>
-      <div className={styles.description}>
-        <img width={50} height={50} src={imageUrl} alt="donuts image" />
-        <div className={styles.descriptionText}>
-          <p>{title}</p>
-          <p>
-            {typeList[types]}, BOX {sizes}
-          </p>
+    <>
+      <div className={styles.item}>
+        <div className={styles.description}>
+          <img width={50} height={50} src={imageUrl} alt="donuts image" />
+          <div className={styles.descriptionText}>
+            <p>{title}</p>
+            <p>
+              {type}, BOX {size}
+            </p>
+          </div>
         </div>
+        <div className={styles.quantity}>
+          <MyButton
+            className={styles.btnQty}
+            onClick={handlerDecrementItemCart}
+          >
+            -
+          </MyButton>
+          <p>{count}</p>
+          <MyButton
+            className={styles.btnQty}
+            onClick={handlerIncrementItemCart}
+          >
+            +
+          </MyButton>
+        </div>
+        <div className={styles.price}>
+          <p>{price * count}р.</p>
+        </div>
+        <MyButton
+          className={styles.deleteBtn}
+          onClick={() => handlerDeleteItem(id)}
+        >
+          -_-
+        </MyButton>
       </div>
-      <div className={styles.quantity}>
-        <MyButton className={styles.btnQty}>-</MyButton>
-        <p>2</p>
-        <MyButton className={styles.btnQty}>+</MyButton>
-      </div>
-      <div className={styles.price}>
-        <p>{price}р.</p>
-      </div>
-      <MyButton
-        className={styles.deleteBtn}
-        onClick={() => handleDeleteItem(id)}
-      >
-        -_-
-      </MyButton>
-    </div>
+    </>
   );
 };
 
