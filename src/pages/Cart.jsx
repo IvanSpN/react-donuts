@@ -35,7 +35,6 @@ const Cart = () => {
 
   return (
     <div className={styles.cart}>
-      <Header />
       <div className={styles.cartContent}>
         <div className={styles.topSetting}>
           <div className={styles.info}>
@@ -78,15 +77,23 @@ const Cart = () => {
         {status === 'loading' && <h2>Loading...</h2>}
 
         {error && <h2>Произошла ошибка: {error}</h2>}
+        {cartItems.length > 0 ? (
+          <div className={styles.items}>
+            {cartItems.map(
+              (item) => item && <CartItem key={item.id} {...item} />
+            )}
+          </div>
+        ) : (
+          <div className={styles.cartEmpty}>
+            <h2>
+              Корзина пустая. Добавьте товары. <span>&#128722;</span>
+            </h2>
+          </div>
+        )}
 
-        <div className={styles.items}>
-          {cartItems.map(
-            (item) => item && <CartItem key={item.id} {...item} />
-          )}
-        </div>
         <div className={styles.bottomInfo}>
           <div className={styles.totalOrder}>
-            Всего в заказе: <strong>{totalCount} позиций</strong>
+            Всего в заказе: <strong>{totalCount} шт.</strong>
           </div>
           <div className={styles.totalAmount}>
             Сумма заказа: <span> {totalPrice} р</span>

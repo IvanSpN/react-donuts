@@ -1,12 +1,27 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
-import styles from './DonutsBlock.module.scss';
+
 import DonutCard from '../DonutCard/DonutCard';
 import Skeleton from '../../loader/Skeleton';
+
 import { selectDonuts } from '../../redux/donutsSlice';
 
-const DonutsBlock = () => {
+import styles from './DonutsBlock.module.scss';
+
+interface DonutObj {
+  currentId: number;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+  category: number;
+  rating: number;
+  description: string;
+}
+
+const DonutsBlock: React.FC = () => {
   const { items, status } = useSelector(selectDonuts);
+
   return (
     <div className={styles.wrapper}>
       {status === 'error' ? (
@@ -21,7 +36,7 @@ const DonutsBlock = () => {
         <div className={styles.items}>
           {status === 'loading'
             ? [...new Array(10)].map((_, index) => <Skeleton key={index} />)
-            : items.map((donut) => (
+            : items.map((donut: DonutObj) => (
                 <DonutCard key={donut.currentId} {...donut} />
               ))}
         </div>

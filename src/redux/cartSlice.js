@@ -1,21 +1,5 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  createSelector,
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-export const selectTotalPrice = (state) => {
-  const { cartItems, totalPrice } = state.cart;
-
-  return cartItems.reduce((total, item) => total + item.price * item.count, 0);
-};
-
-export const selectTotalCount = (state) => {
-  const { cartItems, totalCount } = state.cart;
-
-  return cartItems.reduce((total, item) => total + item.count, 0);
-};
 
 // экшн получения актуальной корзины с бэка
 export const fetchCartItems = createAsyncThunk(

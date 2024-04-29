@@ -1,40 +1,40 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { useNavigate } from 'react-router-dom';
+
+import MyInput from '../UI/input/MyInput';
+
+import { setSearchValue } from '../../redux/filterSlice';
 
 import styles from './Search.module.scss';
-import MyInput from '../UI/input/MyInput';
-import { setSearchValue } from '../../redux/filterSlice';
-import { fetchDonuts } from '../../redux/donutsSlice';
 
-const Search = () => {
+const Search: React.FC = () => {
   const dispatch = useDispatch();
 
   // стейт для хранения локального значения инпута
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState<string>('');
 
   // ссылка на DOM инпут
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // функция обновления значенеия инпута передаваемого в поиск через заданный интервал времени, оптимизируем кол-во запросов на бэк
   const updateSearchValue = React.useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(setSearchValue(str));
     }, 1000),
     []
   );
 
-  const onChangeInput = (e) => {
-    setValue(e.target.value);
-    updateSearchValue(e.target.value);
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
   };
 
   // очитска инпута и фокус на инпуте после очистки
-  const onClearInput = () => {
+  const onClearInput = (event: React.MouseEvent<HTMLDivElement>) => {
     dispatch(setSearchValue(''));
     setValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (

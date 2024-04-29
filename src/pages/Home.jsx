@@ -116,7 +116,6 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <Header />
       <div className={styles.wrapperCategoryAndSort}>
         <Category />
         <Sort />

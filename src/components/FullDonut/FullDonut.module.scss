@@ -1,0 +1,14 @@
+.container {
+  border: 1px solid red;
+  width: 500px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+}

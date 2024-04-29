@@ -1,8 +1,18 @@
-import React from 'react';
 import ReactPaginate from 'react-paginate';
 
 import styles from './Paginate.module.scss';
-const Paginate = ({ onChangePage, pageCount, limit }) => {
+
+interface PaginateProp {
+  onChangePage: (selectedPage: number) => void;
+  pageCount: number;
+  limit: number;
+}
+
+const Paginate: React.FC<PaginateProp> = ({
+  onChangePage,
+  pageCount,
+  limit,
+}) => {
   return (
     <ReactPaginate
       className={styles.wrapper}

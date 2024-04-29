@@ -1,33 +1,63 @@
 import React from 'react';
-import styles from './DonutCard.module.scss';
-import MyButton from '../UI/button/MyButton';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { fetchAddToCart, selectCart } from '../../redux/cartSlice';
-import { getPrice } from '../../utils/getPrice';
+import { fetchAddToCart } from '../../redux/cartSlice';
+
+import MyButton from '../UI/button/MyButton';
+import { getPrice, PriceCalculationParams } from '../../utils/getPrice';
+
+import styles from './DonutCard.module.scss';
+
 // список для типов продукта
-export const typeList = ['Стандарт', 'Макси'];
+export const typeList: string[] = ['Стандарт', 'Макси'];
 
 // список для размера продукта
-export const sizeList = [3, 6, 9];
+export const sizeList: number[] = [3, 6, 9];
 
-const DonutCard = ({ title, price, sizes, types, imageUrl, currentId }) => {
+type DonutCardProps = {
+  title: string;
+  price: number;
+  sizes: number[];
+  types: number[];
+  imageUrl: string;
+  currentId: number;
+};
+
+interface objInt {
+  title: string;
+  price: (params: PriceCalculationParams) => number;
+  imageUrl: string;
+  type: string;
+  size: number;
+  currentId: number;
+}
+const DonutCard: React.FC<DonutCardProps> = ({
+  title,
+  price,
+  sizes,
+  types,
+  imageUrl,
+  currentId,
+}) => {
   const dispatch = useDispatch();
+
   // стейт выбора типа продукта
-  const [activeType, setActiveType] = React.useState(0);
+  const [activeType, setActiveType] = React.useState<number>(0);
 
   // стейт выбора размера продукта
-  const [activeSize, setActiveSize] = React.useState(0);
+  const [activeSize, setActiveSize] = React.useState<number>(0);
 
-  const obj = {
+  const obj: objInt = {
     title,
-    price: getPrice(
-      price,
-      sizeList[activeSize],
-      typeList[activeType],
-      typeList[0],
-      typeList[1]
-    ),
+    price: () =>
+      getPrice(
+        price,
+        sizeList[activeSize],
+        typeList[activeType],
+        typeList[0],
+        typeList[1]
+      ),
     imageUrl,
     type: typeList[activeType],
     size: sizeList[activeSize],
@@ -35,13 +65,16 @@ const DonutCard = ({ title, price, sizes, types, imageUrl, currentId }) => {
   };
 
   function handlerAddToCart() {
+    //@ts-ignore
     dispatch(fetchAddToCart(obj));
   }
 
   return (
     <div className={styles.donutCard}>
       <div className={styles.imageDonut}>
-        <img width={100} src={imageUrl} alt="" />
+        <Link to={`/items/${currentId}`}>
+          <img width={100} src={imageUrl} alt="" />
+        </Link>
       </div>
       <div className={styles.title}>
         <h5>{title}</h5>

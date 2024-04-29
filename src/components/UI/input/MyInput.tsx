@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
+
 import styles from './MyInput.module.scss';
 
-const MyInput = React.forwardRef(
+interface MyInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  type?: string;
+  placeholder?: string;
+  value?: string | number;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+}
+
+const MyInput = React.forwardRef<HTMLInputElement, MyInputProps>(
   ({ type, placeholder, value, onChange, className }, ref) => {
     return (
       <input

@@ -14,7 +14,7 @@ export const sortList = [
 
 const Sort = () => {
   const dispatch = useDispatch();
-  const sortRef = useRef();
+  const sortRef = useRef(null);
 
   // используем состояние выбранной категории из filterSlice
   const orderSort = useSelector((state) => state.filter.orderSort);

@@ -1,4 +1,14 @@
-export const getPrice = (
+export interface PriceCalculationParams {
+  (
+    startPrice: number,
+    size: number,
+    type: string,
+    variantOneType: string,
+    variantTwoType: string
+  ): number;
+}
+
+export const getPrice: PriceCalculationParams = (
   startPrice,
   size,
   type,
@@ -6,7 +16,6 @@ export const getPrice = (
   variantTwoType
 ) => {
   if (size === 3) {
-    startPrice = startPrice;
   } else if (size === 6) {
     startPrice += 60;
   } else if (size === 9) {
