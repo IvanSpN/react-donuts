@@ -1,11 +1,11 @@
-import React from 'react';
-import styles from './../styles/Donut.module.scss';
-import Header from '../components/Header/Header';
-import FullDonut from '../components/FullDonut/FullDonut';
 import { Link } from 'react-router-dom';
+
+import FullDonut from '../components/FullDonut/FullDonut';
 import MyButton from '../components/UI/button/MyButton';
 
-const Donut = () => {
+import styles from './../styles/Donut.module.scss';
+
+const Donut: React.FC = () => {
   return (
     <div className={styles.container}>
       <hr />

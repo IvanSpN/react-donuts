@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
 import MyButton from '../UI/button/MyButton';
 
@@ -10,8 +9,9 @@ import {
 } from '../../redux/cartSlice';
 
 import styles from './CartItem.module.scss';
+import { useAppDispatch } from '../../redux/store';
 
-type CartItemProps = {
+type TCartItemProps = {
   title: string;
   price: number;
   size: number;
@@ -22,7 +22,7 @@ type CartItemProps = {
   currentId: number;
 };
 
-interface newObj {
+interface ICartItemObjForIncAndDecr {
   title: string;
   price: number;
   type: string;
@@ -30,9 +30,10 @@ interface newObj {
   count: number;
   id: number;
   currentId: number;
+  imageUrl: string;
 }
 
-const CartItem: React.FC<CartItemProps> = ({
+const CartItem: React.FC<TCartItemProps> = ({
   title,
   price,
   size,
@@ -42,17 +43,16 @@ const CartItem: React.FC<CartItemProps> = ({
   count,
   currentId,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Удаляем элемент из корзины
   const handlerDeleteItem = (id: number) => {
-    //@ts-ignore
     dispatch(fetchDeleteCartItem(id));
   };
 
   // увеличиваем добавленный товар в корзине
   const handlerIncrementItemCart = () => {
-    const newObj: newObj = {
+    const newObj: ICartItemObjForIncAndDecr = {
       title,
       price,
       type,
@@ -60,14 +60,15 @@ const CartItem: React.FC<CartItemProps> = ({
       count,
       id,
       currentId,
+      imageUrl,
     };
-    //@ts-ignore
+
     dispatch(fetchIncrementItemCart(newObj));
   };
 
   // уменьшаем добавленный товар в корзине
   const handlerDecrementItemCart = () => {
-    const newObj: newObj = {
+    const newObj: ICartItemObjForIncAndDecr = {
       title,
       price,
       type,
@@ -75,8 +76,9 @@ const CartItem: React.FC<CartItemProps> = ({
       count,
       id,
       currentId,
+      imageUrl,
     };
-    //@ts-ignore
+
     dispatch(fetchDecrementItemCart(newObj));
   };
 

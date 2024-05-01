@@ -20,7 +20,7 @@ const FullDonut: React.FC = () => {
   );
 
   if (isLoading) {
-    return <>'Загрузка...'</>;
+    return 'Загрузка...';
   }
 
   if (error) {

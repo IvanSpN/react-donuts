@@ -1,6 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
-const initialState = {
+type TSelectOptions = {
+  name: string;
+  sortProperty: 'rating' | 'price' | 'title';
+};
+
+interface IFilterSlice {
+  activeCategory: number;
+  selectedOption: TSelectOptions;
+  orderSort: string;
+  searchValue: string;
+  currentPage: number;
+}
+
+export interface IFilterOptions {
+  activeCategory: number;
+  selectedOption: TSelectOptions;
+  orderSort: string;
+  currentPage: number;
+}
+
+const initialState: IFilterSlice = {
   //категория товаров
   activeCategory: 0,
 
@@ -15,32 +36,35 @@ const initialState = {
 
   // стейт поиска
   searchValue: '',
+
+  //текущая страница
+  currentPage: 0,
 };
 const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
     // метод для изменения категории товаров
-    setActiveCategory(state, action) {
+    setActiveCategory(state, action: PayloadAction<number>) {
       state.activeCategory = action.payload;
     },
 
     // метод для изменения параметра "по убыванию/возрастанию"
-    setOrderSort(state, action) {
+    setOrderSort(state, action: PayloadAction<string>) {
       state.orderSort = action.payload;
     },
 
     // метод для изменеия выбора параметров сортировки товаров
-    setSelectedOption(state, action) {
+    setSelectedOption(state, action: PayloadAction<TSelectOptions>) {
       state.selectedOption = action.payload;
     },
 
-    setSearchValue(state, action) {
+    setSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
     },
 
     // метод для измениния стейтов при сохранении параметров в URL
-    setFilters(state, action) {
+    setFilters(state, action: PayloadAction<IFilterOptions>) {
       if (Object.keys(action.payload).length) {
         state.selectedOption = action.payload.selectedOption;
         state.activeCategory = Number(action.payload.activeCategory);
@@ -68,7 +92,7 @@ const filterSlice = createSlice({
 });
 
 // селект для более удобного использования, если нужно
-export const selectFilter = (state) => state.filter;
+export const selectFilter = (state: RootState) => state.filter;
 
 export const {
   setActiveCategory,

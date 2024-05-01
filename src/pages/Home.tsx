@@ -1,27 +1,31 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import qs from 'qs';
+
 import Paginate from '../components/Paginate/Paginate';
 
-import { setFilters, selectFilter } from '../redux/filterSlice';
-import {
-  fetchDonuts,
-  setCurrentPage,
-  selectDonuts,
-} from '../redux/donutsSlice';
-import Header from '../components/Header/Header';
 import DonutsBlock from '../components/DonutsBlock/DonutsBlock';
 import Sort, { sortList } from '../components/Sort/Sort';
 import Category from '../components/Category/Category';
 
-import styles from '../styles/Home.module.scss';
+import { setFilters, selectFilter, IFilterOptions } from '../redux/filterSlice';
+import {
+  fetchDonuts,
+  setCurrentPage,
+  selectDonuts,
+  IFetchDonutsParams,
+} from '../redux/donutsSlice';
 import { selectCart } from '../redux/cartSlice';
 
-const Home = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+import styles from '../styles/Home.module.scss';
+import { useAppDispatch } from '../redux/store';
 
+interface FilterState extends IFilterOptions {}
+
+const Home: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
@@ -35,7 +39,7 @@ const Home = () => {
   const { error } = useSelector(selectCart);
 
   // пагинация: кол-во отображаемых товаров на одной странице, устанавливаем сами
-  const [limit, setLimit] = React.useState(4);
+  const [limit] = React.useState(4);
 
   // запрос на получение всех пончиков
   const getDonuts = async () => {
@@ -98,7 +102,7 @@ const Home = () => {
         setFilters({
           ...params,
           selectedOption,
-        })
+        } as FilterState)
       );
 
       isSearch.current = true;

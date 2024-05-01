@@ -1,31 +1,39 @@
 import React, { useRef } from 'react';
-import styles from './Sort.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+
 import arrow from '../../assets/arrow-top.svg';
 
 import { setOrderSort, setSelectedOption } from '../../redux/filterSlice';
-import { useDispatch, useSelector } from 'react-redux';
+
+import styles from './Sort.module.scss';
+import { RootState } from '../../redux/store';
+
+export type SortListItem = {
+  name: string;
+  sortProperty: 'rating' | 'price' | 'title';
+};
 
 // массив параметров для сортировки
-export const sortList = [
+export const sortList: SortListItem[] = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: 'title' },
 ];
 
-const Sort = () => {
+const Sort: React.FC = () => {
   const dispatch = useDispatch();
-  const sortRef = useRef(null);
+  const sortRef = useRef<HTMLDivElement>(null);
 
-  // используем состояние выбранной категории из filterSlice
-  const orderSort = useSelector((state) => state.filter.orderSort);
-  // используем состояние выбранной категории из filterSlice
-  const { selectedOption } = useSelector((state) => state.filter);
+  //используем состояние выбранной категории из filterSlice
+  const { selectedOption, orderSort } = useSelector(
+    (state: RootState) => state.filter
+  );
 
   // стейт для POPUP открыть/закрыть
   const [activePopUp, setActivePopUp] = React.useState(false);
 
   // метод выбора метода сортировки
-  const handlerSortOptions = (obj) => {
+  const handlerSortOptions = (obj: SortListItem) => {
     dispatch(setSelectedOption(obj));
 
     setActivePopUp(false);
@@ -38,8 +46,12 @@ const Sort = () => {
 
   // скрываем ПОПап при клике мимо него
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClickOutside: EventListenerOrEventListenerObject = (event) => {
+      let path;
+      if (sortRef.current) {
+        path = event.composedPath().includes(sortRef.current);
+      }
+      if (!path) {
         setActivePopUp(false);
       }
     };

@@ -1,16 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import Header from '../components/Header/Header';
-import styles from '../styles/Cart.module.scss';
-import MyButton from '../components/UI/button/MyButton';
 import trash from '../assets/trash.svg';
-import { fetchCartItems, fetchClearCart, selectCart } from '../redux/cartSlice';
+
+import MyButton from '../components/UI/button/MyButton';
 import CartItem from '../components/CartItem';
 
-const Cart = () => {
-  const dispatch = useDispatch();
+import { fetchCartItems, fetchClearCart, selectCart } from '../redux/cartSlice';
+
+import styles from '../styles/Cart.module.scss';
+import { useAppDispatch } from '../redux/store';
+
+type TItem = {
+  title: string;
+  imageUrl: string;
+  price: number;
+  type: string;
+  size: number;
+  count: number;
+  id: number;
+  currentId: number;
+};
+
+const Cart: React.FC = () => {
+  const dispatch = useAppDispatch();
 
   // статус запроса и ошибки
   const { status, error, totalPrice, totalCount } = useSelector(selectCart);
@@ -80,7 +94,7 @@ const Cart = () => {
         {cartItems.length > 0 ? (
           <div className={styles.items}>
             {cartItems.map(
-              (item) => item && <CartItem key={item.id} {...item} />
+              (item: TItem) => item && <CartItem key={item.id} {...item} />
             )}
           </div>
         ) : (

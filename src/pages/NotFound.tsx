@@ -1,8 +1,8 @@
-import React from 'react';
 import NotFoundBlock from '../components/NotFoundBlock';
+
 import styles from '../styles/NotFound.module.scss';
 
-const NotFound = () => {
+const NotFound: React.FC = () => {
   return (
     <>
       <NotFoundBlock />

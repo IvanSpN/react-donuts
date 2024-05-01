@@ -1,17 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setActiveCategory } from '../../redux/filterSlice';
+import { setActiveCategory, selectFilter } from '../../redux/filterSlice';
 
 import styles from './Category.module.scss';
 
 const Category: React.FC = () => {
   const dispatch = useDispatch();
 
-  //@ts-ignore используем состояние выбранной категории из filterSlice
-  const activeCategory = useSelector((state) => state.filter.activeCategory);
+  // используем состояние выбранной категории из filterSlice
+  const { activeCategory } = useSelector(selectFilter);
 
   // метод изменения категории по клику
-  const onClickCategory = (index: number) => {
+  const onClickCategory = (index: number): void => {
     dispatch(setActiveCategory(index));
   };
 

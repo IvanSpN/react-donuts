@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import { fetchAddToCart } from '../../redux/cartSlice';
 
 import MyButton from '../UI/button/MyButton';
-import { getPrice, PriceCalculationParams } from '../../utils/getPrice';
+import { getPrice } from '../../utils/getPrice';
 
 import styles from './DonutCard.module.scss';
+import { useAppDispatch } from '../../redux/store';
 
 // список для типов продукта
 export const typeList: string[] = ['Стандарт', 'Макси'];
@@ -26,12 +26,15 @@ type DonutCardProps = {
 
 interface objInt {
   title: string;
-  price: (params: PriceCalculationParams) => number;
+  price: number;
   imageUrl: string;
   type: string;
   size: number;
   currentId: number;
+  count: number;
+  id: number;
 }
+
 const DonutCard: React.FC<DonutCardProps> = ({
   title,
   price,
@@ -40,7 +43,7 @@ const DonutCard: React.FC<DonutCardProps> = ({
   imageUrl,
   currentId,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // стейт выбора типа продукта
   const [activeType, setActiveType] = React.useState<number>(0);
@@ -50,22 +53,22 @@ const DonutCard: React.FC<DonutCardProps> = ({
 
   const obj: objInt = {
     title,
-    price: () =>
-      getPrice(
-        price,
-        sizeList[activeSize],
-        typeList[activeType],
-        typeList[0],
-        typeList[1]
-      ),
+    price: getPrice(
+      price,
+      sizeList[activeSize],
+      typeList[activeType],
+      typeList[0],
+      typeList[1]
+    ),
     imageUrl,
     type: typeList[activeType],
     size: sizeList[activeSize],
     currentId,
+    count: 1,
+    id: 0,
   };
 
   function handlerAddToCart() {
-    //@ts-ignore
     dispatch(fetchAddToCart(obj));
   }
 
