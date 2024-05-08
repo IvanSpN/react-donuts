@@ -2,12 +2,14 @@
   display: flex;
 }
 .donutCard {
+  // border: 1px solid black;
+  border-radius: 30px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   max-width: 400px;
-  border: 1px solid red;
   margin: 10px;
   padding: 10px;
 }
@@ -15,6 +17,9 @@
 .imageDonut {
   display: flex;
   justify-content: center;
+  img {
+    border-radius: 50px;
+  }
 }
 
 .title {
@@ -22,42 +27,38 @@
 }
 
 .types {
-  border: 1px solid red;
   margin-top: 10px;
   padding: 10px;
   ul {
     text-align: center;
     li {
-      border: 1px solid red;
+      text-transform: lowercase;
+      padding: 5px;
+      border-radius: 10px;
       display: inline-block;
       cursor: pointer;
       margin-right: 5px;
-      background-color: #9d84bd;
+      background-color: #ffe4f8;
       &.active {
-        background-color: #7c9139;
-        p {
-          color: wheat;
-        }
+        background-color: #aa909b;
       }
     }
   }
 }
 
 .sizes {
-  border: 1px solid red;
   margin-top: 10px;
   padding: 10px;
   li {
-    border: 1px solid red;
+    border-radius: 20px;
+    text-transform: lowercase;
+    padding: 5px;
     display: inline-block;
     margin: 5px;
-    background-color: #9d84bd;
+    background-color: #ffe4f8;
     cursor: pointer;
     &.active {
-      background-color: #7c9139;
-      p {
-        color: wheat;
-      }
+      background-color: #aa909b;
     }
   }
 }
@@ -81,7 +82,7 @@
   justify-content: center;
   gap: 5px;
   padding: 5px;
-  color: red;
+  color: black;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;

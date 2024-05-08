@@ -1,19 +1,24 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useWhyDidYouUpdate from 'ahooks/lib/useWhyDidYouUpdate';
 
-import { setActiveCategory, selectFilter } from '../../redux/filterSlice';
+import { setActiveCategory } from '../../redux/filter/slice';
+import { selectFilter } from '../../redux/filter/selectors';
 
 import styles from './Category.module.scss';
 
-const Category: React.FC = () => {
+export const Category: React.FC = React.memo(() => {
+  useWhyDidYouUpdate('Category', {});
   const dispatch = useDispatch();
 
   // используем состояние выбранной категории из filterSlice
   const { activeCategory } = useSelector(selectFilter);
 
   // метод изменения категории по клику
-  const onClickCategory = (index: number): void => {
+
+  const onClickCategory = React.useCallback((index: number): void => {
     dispatch(setActiveCategory(index));
-  };
+  }, []);
 
   // массив категорий для сортировки
   const categories: string[] = [
@@ -41,6 +46,4 @@ const Category: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Category;
+});

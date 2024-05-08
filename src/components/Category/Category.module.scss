@@ -2,21 +2,23 @@
   ul {
     display: flex;
     gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
 
     li {
-      border: 1px solid red;
+      font-family: Roboto, sans-serif;
+      font-weight: 500;
       width: -webkit-fit-content;
       width: -moz-fit-content;
       width: fit-content;
       padding: 10px;
       border-radius: 15px;
-      background-color: #9d84bd;
+      background-color: #ffe4f8;
       cursor: pointer;
       &.active {
-        background-color: #7c9139;
-        p {
-          color: wheat;
-        }
+        background-color: #aa909b;
+
+        color: white;
       }
     }
   }

@@ -3,23 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import qs from 'qs';
 
-import Paginate from '../components/Paginate/Paginate';
+import { Paginate } from '../components';
 
-import DonutsBlock from '../components/DonutsBlock/DonutsBlock';
-import Sort, { sortList } from '../components/Sort/Sort';
-import Category from '../components/Category/Category';
+import { DonutsBlock } from '../components';
+import { Category, Sort, sortList } from '../components';
 
-import { setFilters, selectFilter, IFilterOptions } from '../redux/filterSlice';
-import {
-  fetchDonuts,
-  setCurrentPage,
-  selectDonuts,
-  IFetchDonutsParams,
-} from '../redux/donutsSlice';
-import { selectCart } from '../redux/cartSlice';
+import { setFilters } from '../redux/filter/slice';
+import { selectFilter } from '../redux/filter/selectors';
+import { setCurrentPage } from '../redux/donuts/slice';
+import { fetchDonuts } from '../redux/donuts/asyncActions';
+
+import { IFilterOptions } from '../redux/filter/types';
+import { selectDonuts } from '../redux/donuts/selectors';
 
 import styles from '../styles/Home.module.scss';
 import { useAppDispatch } from '../redux/store';
+import { fetchCartItems } from '../redux/cart/asyncActions';
 
 interface FilterState extends IFilterOptions {}
 
@@ -35,8 +34,6 @@ const Home: React.FC = () => {
 
   // пагинация: текущая страница, возвращает бэк,  // пагинация: всего страниц, возвращает бэк
   const { currentPage, totalPages } = useSelector(selectDonuts);
-
-  const { error } = useSelector(selectCart);
 
   // пагинация: кол-во отображаемых товаров на одной странице, устанавливаем сами
   const [limit] = React.useState(4);
@@ -63,6 +60,10 @@ const Home: React.FC = () => {
       })
     );
   };
+
+  React.useEffect(() => {
+    dispatch(fetchCartItems());
+  }, []);
 
   /*проверка для пагинации, когда на первой странице выбираем 2ю стр-цу,
    затем переходим в категорию где всего 1 стр, задаем текущую страницу "1"*/
@@ -124,7 +125,7 @@ const Home: React.FC = () => {
         <Category />
         <Sort />
       </div>
-      {error && <h2>Произошла ошибка на сервере: {error}</h2>}
+
       <DonutsBlock />
       <Paginate
         limit={limit}

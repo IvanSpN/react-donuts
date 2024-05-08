@@ -6,10 +6,11 @@ import {
   fetchDeleteCartItem,
   fetchIncrementItemCart,
   fetchDecrementItemCart,
-} from '../../redux/cartSlice';
+} from '../../redux/cart/asyncActions';
+
+import { useAppDispatch } from '../../redux/store';
 
 import styles from './CartItem.module.scss';
-import { useAppDispatch } from '../../redux/store';
 
 type TCartItemProps = {
   title: string;
@@ -33,7 +34,7 @@ interface ICartItemObjForIncAndDecr {
   imageUrl: string;
 }
 
-const CartItem: React.FC<TCartItemProps> = ({
+export const CartItem: React.FC<TCartItemProps> = ({
   title,
   price,
   size,
@@ -86,7 +87,7 @@ const CartItem: React.FC<TCartItemProps> = ({
     <>
       <div className={styles.item}>
         <div className={styles.description}>
-          <img width={50} height={50} src={imageUrl} alt="donuts image" />
+          <img width={50} height={50} src={imageUrl} alt="donuts_image" />
           <div className={styles.descriptionText}>
             <p>{title}</p>
             <p>
@@ -96,6 +97,7 @@ const CartItem: React.FC<TCartItemProps> = ({
         </div>
         <div className={styles.quantity}>
           <MyButton
+            title="Удалить товар"
             className={styles.btnQty}
             onClick={handlerDecrementItemCart}
           >
@@ -103,6 +105,7 @@ const CartItem: React.FC<TCartItemProps> = ({
           </MyButton>
           <p>{count}</p>
           <MyButton
+            title="Добавить товар"
             className={styles.btnQty}
             onClick={handlerIncrementItemCart}
           >
@@ -113,14 +116,13 @@ const CartItem: React.FC<TCartItemProps> = ({
           <p>{price * count}р.</p>
         </div>
         <MyButton
+          title="Удалить товар"
           className={styles.deleteBtn}
           onClick={() => handlerDeleteItem(id)}
         >
-          -_-
+          Удалить
         </MyButton>
       </div>
     </>
   );
 };
-
-export default CartItem;

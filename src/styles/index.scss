@@ -2,11 +2,16 @@
 @import '../styles/Cart.module.scss';
 @import '../styles/Home.module.scss';
 @import '../styles/NotFound.module.scss';
+
 .App {
-  border: 1px solid red;
+  // border: 1px solid red;
+  border-radius: 20px;
   max-width: 1200px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
+  justify-content: space-between;
+  margin: 20px auto;
+  background-color: #ffc8b8;
+  padding: 20px;
 }

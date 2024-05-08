@@ -4,11 +4,11 @@ import debounce from 'lodash.debounce';
 
 import MyInput from '../UI/input/MyInput';
 
-import { setSearchValue } from '../../redux/filterSlice';
+import { setSearchValue } from '../../redux/filter/slice';
 
 import styles from './Search.module.scss';
 
-const Search: React.FC = () => {
+export const Search: React.FC = () => {
   const dispatch = useDispatch();
 
   // стейт для хранения локального значения инпута
@@ -82,5 +82,3 @@ const Search: React.FC = () => {
     </div>
   );
 };
-
-export default Search;

@@ -12,7 +12,7 @@ interface Item {
   description: string;
 }
 
-const FullDonut: React.FC = () => {
+export const FullDonut: React.FC = () => {
   const { id } = useParams();
 
   const [isLoading, data, error] = useFetch(
@@ -44,5 +44,3 @@ const FullDonut: React.FC = () => {
     </div>
   );
 };
-
-export default FullDonut;

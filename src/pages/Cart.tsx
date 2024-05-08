@@ -5,12 +5,13 @@ import { useSelector } from 'react-redux';
 import trash from '../assets/trash.svg';
 
 import MyButton from '../components/UI/button/MyButton';
-import CartItem from '../components/CartItem';
+import { CartItem } from '../components';
 
-import { fetchCartItems, fetchClearCart, selectCart } from '../redux/cartSlice';
+import { fetchCartItems, fetchClearCart } from '../redux/cart/asyncActions';
+import { selectCart } from '../redux/cart/selectors';
+import { useAppDispatch } from '../redux/store';
 
 import styles from '../styles/Cart.module.scss';
-import { useAppDispatch } from '../redux/store';
 
 type TItem = {
   title: string;
@@ -83,27 +84,34 @@ const Cart: React.FC = () => {
             </svg>
             <p>Корзина</p>
           </div>
-          <MyButton className={styles.clearBtn} onClick={handlerClearCart}>
+          <MyButton
+            disabled={cartItems.length <= 0}
+            className={styles.clearBtn}
+            onClick={handlerClearCart}
+            title="Очистить корзину"
+          >
             <img src={trash} alt="Мусорное ведро" />
             <p>Очистить корзину</p>
           </MyButton>
         </div>
-        {status === 'loading' && <h2>Loading...</h2>}
+        <div className={styles.cartCenter}>
+          {status === 'loading' && <h2>Loading...</h2>}
 
-        {error && <h2>Произошла ошибка: {error}</h2>}
-        {cartItems.length > 0 ? (
-          <div className={styles.items}>
-            {cartItems.map(
-              (item: TItem) => item && <CartItem key={item.id} {...item} />
-            )}
-          </div>
-        ) : (
-          <div className={styles.cartEmpty}>
-            <h2>
-              Корзина пустая. Добавьте товары. <span>&#128722;</span>
-            </h2>
-          </div>
-        )}
+          {error && <h2>Произошла ошибка: {error}</h2>}
+          {cartItems.length ? (
+            <div className={styles.items}>
+              {cartItems.map(
+                (item: TItem) => item && <CartItem key={item.id} {...item} />
+              )}
+            </div>
+          ) : (
+            <div className={styles.cartEmpty}>
+              <h2>
+                Корзина пустая. Добавьте товары. <span>&#128722;</span>
+              </h2>
+            </div>
+          )}
+        </div>
 
         <div className={styles.bottomInfo}>
           <div className={styles.totalOrder}>
@@ -118,7 +126,13 @@ const Cart: React.FC = () => {
             <MyButton className={styles.backBtn}>Вернуться назад</MyButton>
           </Link>
 
-          <MyButton className={styles.payBtn}>Оплатить сейчас</MyButton>
+          <MyButton
+            className={styles.payBtn}
+            disabled={cartItems.length <= 0}
+            title="Оплатить товар"
+          >
+            Оплатить сейчас
+          </MyButton>
         </div>
       </div>
     </div>

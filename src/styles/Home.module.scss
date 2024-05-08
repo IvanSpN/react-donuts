@@ -2,7 +2,8 @@
 }
 
 .wrapperCategoryAndSort {
-  border: 1px solid red;
+  display: flex;
+  flex-wrap: wrap;
   display: flex;
   justify-content: space-between;
   position: relative;

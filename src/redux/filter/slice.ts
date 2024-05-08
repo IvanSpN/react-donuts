@@ -1,25 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
-
-type TSelectOptions = {
-  name: string;
-  sortProperty: 'rating' | 'price' | 'title';
-};
-
-interface IFilterSlice {
-  activeCategory: number;
-  selectedOption: TSelectOptions;
-  orderSort: string;
-  searchValue: string;
-  currentPage: number;
-}
-
-export interface IFilterOptions {
-  activeCategory: number;
-  selectedOption: TSelectOptions;
-  orderSort: string;
-  currentPage: number;
-}
+import { RootState } from '../store';
+import { IFilterOptions, IFilterSlice, TSelectOptions } from './types';
 
 const initialState: IFilterSlice = {
   //категория товаров
@@ -90,9 +71,6 @@ const filterSlice = createSlice({
     },
   },
 });
-
-// селект для более удобного использования, если нужно
-export const selectFilter = (state: RootState) => state.filter;
 
 export const {
   setActiveCategory,

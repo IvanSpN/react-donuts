@@ -19,5 +19,8 @@
   }
 }
 
-.inputHeader {
+@media (max-width: 580px) {
+  .inputHeader {
+    min-width: 50px;
+  }
 }

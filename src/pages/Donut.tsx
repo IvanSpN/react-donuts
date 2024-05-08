@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import FullDonut from '../components/FullDonut/FullDonut';
+import { FullDonut } from '../components';
 import MyButton from '../components/UI/button/MyButton';
 
 import styles from './../styles/Donut.module.scss';

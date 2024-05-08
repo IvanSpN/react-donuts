@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import arrow from '../../assets/arrow-top.svg';
 
-import { setOrderSort, setSelectedOption } from '../../redux/filterSlice';
+import { setOrderSort, setSelectedOption } from '../../redux/filter/slice';
+
+import { RootState } from '../../redux/store';
 
 import styles from './Sort.module.scss';
-import { RootState } from '../../redux/store';
 
 export type SortListItem = {
   name: string;
@@ -20,7 +21,7 @@ export const sortList: SortListItem[] = [
   { name: 'алфавиту', sortProperty: 'title' },
 ];
 
-const Sort: React.FC = () => {
+export const Sort: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const sortRef = useRef<HTMLDivElement>(null);
 
@@ -98,6 +99,4 @@ const Sort: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default Sort;
+});

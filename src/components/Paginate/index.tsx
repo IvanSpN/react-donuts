@@ -8,7 +8,7 @@ interface PaginateProp {
   limit: number;
 }
 
-const Paginate: React.FC<PaginateProp> = ({
+export const Paginate: React.FC<PaginateProp> = ({
   onChangePage,
   pageCount,
   limit,
@@ -26,5 +26,3 @@ const Paginate: React.FC<PaginateProp> = ({
     />
   );
 };
-
-export default Paginate;

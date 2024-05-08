@@ -1,5 +1,4 @@
 .sortBlock {
-  border: 1px solid red;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -13,7 +12,7 @@
   span {
     cursor: pointer;
     margin-left: 5px;
-    border-bottom: 1px dashed red;
+    border-bottom: 1px dashed black;
     font-weight: bold;
   }
 }
@@ -35,9 +34,9 @@
   width: 110px;
   right: 0;
   top: 25px;
-  border: 1px solid red;
+
   width: 130px;
-  background-color: #9d84bd;
+  background-color: #cc9fb2;
   ul {
     display: flex;
     flex-direction: column;
@@ -45,10 +44,10 @@
       cursor: pointer;
       padding: 10px;
       &:hover {
-        background-color: #7c9139;
+        background-color: #ffe4f8;
       }
       &.active {
-        color: red;
+        font-weight: bold;
       }
     }
   }

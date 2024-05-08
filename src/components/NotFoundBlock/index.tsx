@@ -1,11 +1,8 @@
-import Header from '../Header/Header';
-
 import styles from './NotFoundBlock.module.scss';
 
-const NotFoundBlock: React.FC = () => {
+export const NotFoundBlock: React.FC = () => {
   return (
     <div>
-      <Header />
       <div className={styles.content}>
         <div>🙅</div>
         <h1>Ничего не найдено... </h1>
@@ -13,5 +10,3 @@ const NotFoundBlock: React.FC = () => {
     </div>
   );
 };
-
-export default NotFoundBlock;

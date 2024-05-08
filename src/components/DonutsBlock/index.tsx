@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 
-import DonutCard from '../DonutCard/DonutCard';
+import { DonutCard } from '../index';
 import Skeleton from '../../loader/Skeleton';
 
-import { selectDonuts } from '../../redux/donutsSlice';
+import { selectDonuts } from '../../redux/donuts/selectors';
 
 import styles from './DonutsBlock.module.scss';
 
@@ -19,7 +19,7 @@ interface DonutObj {
   description: string;
 }
 
-const DonutsBlock: React.FC = () => {
+export const DonutsBlock: React.FC = () => {
   const { items, status } = useSelector(selectDonuts);
 
   return (
@@ -44,5 +44,3 @@ const DonutsBlock: React.FC = () => {
     </div>
   );
 };
-
-export default DonutsBlock;
