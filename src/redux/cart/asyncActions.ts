@@ -4,7 +4,6 @@ import { TCartItem } from './types';
 import { RootState } from '../store';
 import { setClearCartItems } from './slice';
 
-// экшн получения актуальной корзины с бэка
 export const fetchCartItems = createAsyncThunk(
   'cartItems/fetchCartItemsStatus',
   async (_, { rejectWithValue }) => {
@@ -22,7 +21,6 @@ export const fetchCartItems = createAsyncThunk(
   }
 );
 
-// экшн удаления товара по id из корзины в бэке и после ОК-ответа и на фронте
 export const fetchDeleteCartItem = createAsyncThunk<void, number>(
   'deleteItem/fetchDeleteCartItemStatus',
   async (id, { rejectWithValue, dispatch }) => {
@@ -38,7 +36,7 @@ export const fetchDeleteCartItem = createAsyncThunk<void, number>(
     }
   }
 );
-// экшн для добавления товара в корзину, сначала на бэк и если ОК, то и на фронт
+
 export const fetchAddToCart = createAsyncThunk<void, TCartItem>(
   'addItem/fetchAddToCartStatus',
   async (item, { rejectWithValue, dispatch, getState }) => {
@@ -54,18 +52,15 @@ export const fetchAddToCart = createAsyncThunk<void, TCartItem>(
       );
 
       if (findItem) {
-        // Если элемент уже есть в корзине, отправляем запрос на бэкенд для обновления количества
         await axios.patch(
           `https://dd317624db0a7664.mokky.dev/cart/${findItem.id}`,
           { count: findItem.count + 1 }
         );
       } else {
-        // Если элемент не найден, создаем новый
         const newItem = { ...item, count: 1 };
         await axios.post(`https://dd317624db0a7664.mokky.dev/cart`, newItem);
       }
 
-      // После успешного выполнения запроса обновляем корзину
       dispatch(fetchCartItems());
     } catch (error) {
       return rejectWithValue(
@@ -75,7 +70,6 @@ export const fetchAddToCart = createAsyncThunk<void, TCartItem>(
   }
 );
 
-// экшн удаления товара по id из корзины в бэке и после ОК-ответа и на фронте
 export const fetchClearCart = createAsyncThunk<void>(
   'clearCart/fetchClearCartStatus',
   async (_, { rejectWithValue, dispatch }) => {
@@ -92,7 +86,6 @@ export const fetchClearCart = createAsyncThunk<void>(
   }
 );
 
-// экшн увеличения добавленного товара в корзине
 export const fetchIncrementItemCart = createAsyncThunk<void, TCartItem>(
   'incrementItemCart/fetchIncrementItemCartStatus',
   async (item, { rejectWithValue, dispatch, getState }) => {
@@ -108,14 +101,12 @@ export const fetchIncrementItemCart = createAsyncThunk<void, TCartItem>(
       );
 
       if (findItem) {
-        // Если элемент уже есть в корзине, отправляем запрос на бэкенд для обновления количества
         await axios.patch(
           `https://dd317624db0a7664.mokky.dev/cart/${findItem.id}`,
           { count: findItem.count + 1 }
         );
       }
 
-      // После успешного выполнения запроса обновляем корзину
       dispatch(fetchCartItems());
     } catch (error) {
       return rejectWithValue(
@@ -125,7 +116,6 @@ export const fetchIncrementItemCart = createAsyncThunk<void, TCartItem>(
   }
 );
 
-// экшн уменьшения добавленного товара в корзине
 export const fetchDecrementItemCart = createAsyncThunk<void, TCartItem>(
   'decrementItemCart/fetchDecrementItemCartStatus',
   async (item, { rejectWithValue, dispatch, getState }) => {
@@ -141,7 +131,6 @@ export const fetchDecrementItemCart = createAsyncThunk<void, TCartItem>(
       );
 
       if (findItem) {
-        // Если элемент уже есть в корзине, отправляем запрос на бэкенд для обновления количества
         await axios.patch(
           `https://dd317624db0a7664.mokky.dev/cart/${findItem.id}`,
           { count: findItem.count - 1 }
@@ -151,7 +140,6 @@ export const fetchDecrementItemCart = createAsyncThunk<void, TCartItem>(
         dispatch(fetchDeleteCartItem(item.id));
       }
 
-      // После успешного выполнения запроса обновляем корзину
       dispatch(fetchCartItems());
     } catch (error) {
       return rejectWithValue(

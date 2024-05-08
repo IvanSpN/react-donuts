@@ -9,19 +9,14 @@ import {
 } from './asyncActions';
 
 const initialState: ICartSlice = {
-  // стейт отображения наполнения корзины
   cartItems: [],
 
-  // стейт итоговой стоимости корзины товаров
   totalPrice: 0,
 
-  // стейт общего количества позиций в корзине товаров
   totalCount: 0,
 
-  // состояние запроса на бэк
   status: 'loading',
 
-  // стейт для обработки ошибок
   error: null,
 };
 const cartSlice = createSlice({
@@ -36,20 +31,19 @@ const cartSlice = createSlice({
       state.cartItems = [];
     },
 
-    // метод для удаления одного товара из корзины на фронте
     setDeleteCartItem(state, action: PayloadAction<number>) {
       state.cartItems = state.cartItems.filter(
         (item) => item.id !== action.payload
       );
     },
-    // метод для добавления одного товара в корзину на фронте
+
     setAddCartItem(state, action: PayloadAction<TCartItem>) {
       state.cartItems.push(action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
-      // получаем корзину
+
       .addCase(fetchCartItems.pending, (state) => {
         state.status = Status.LOADING;
         state.cartItems = [];
@@ -75,7 +69,7 @@ const cartSlice = createSlice({
         state.error = action.payload as any;
         state.cartItems = [];
       })
-      // удаляем один товар из корзины, сначала из бэка и при ОК-ответе, и с фронта
+
       .addCase(fetchDeleteCartItem.pending, (state) => {
         state.status = Status.LOADING;
       })
@@ -86,7 +80,7 @@ const cartSlice = createSlice({
         state.status = Status.ERROR;
         state.error = action.payload as any;
       })
-      // добавляем один товар в корзину, сначала на бэк и при ОК-ответе, и на фронт
+
       .addCase(fetchAddToCart.pending, (state) => {
         state.status = Status.LOADING;
       })
@@ -97,7 +91,7 @@ const cartSlice = createSlice({
         state.status = Status.ERROR;
         state.error = action.payload as any;
       })
-      // очищаем корзину
+
       .addCase(fetchClearCart.pending, (state) => {
         state.status = Status.LOADING;
       })

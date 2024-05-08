@@ -11,13 +11,10 @@ import styles from './Search.module.scss';
 export const Search: React.FC = () => {
   const dispatch = useDispatch();
 
-  // стейт для хранения локального значения инпута
   const [value, setValue] = React.useState<string>('');
 
-  // ссылка на DOM инпут
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // функция обновления значенеия инпута передаваемого в поиск через заданный интервал времени, оптимизируем кол-во запросов на бэк
   const updateSearchValue = React.useCallback(
     debounce((str: string) => {
       dispatch(setSearchValue(str));
@@ -30,7 +27,6 @@ export const Search: React.FC = () => {
     updateSearchValue(event.target.value);
   };
 
-  // очитска инпута и фокус на инпуте после очистки
   const onClearInput = (event: React.MouseEvent<HTMLDivElement>) => {
     dispatch(setSearchValue(''));
     setValue('');

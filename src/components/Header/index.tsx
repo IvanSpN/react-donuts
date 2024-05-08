@@ -18,7 +18,6 @@ export const Header: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  // сброс фильтров и переход на главную
   const resetParam = () => {
     navigate('/');
     dispatch(resetFilters());

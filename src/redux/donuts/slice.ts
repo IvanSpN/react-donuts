@@ -3,16 +3,12 @@ import { IDonutSlice, IResData, Status } from './types';
 import { fetchDonuts } from './asyncActions';
 
 const initialState: IDonutSlice = {
-  // стейт всех пончиков
   items: [],
 
-  //параметр текущей страницы, возвращает бэк
   currentPage: 1,
 
-  //всего страниц, возвращает бэк
   totalPages: 1,
 
-  // состояние запроса на бэк
   status: 'loading',
   error: null,
 };
@@ -20,7 +16,6 @@ const donutsSlice = createSlice({
   name: 'donuts',
   initialState,
   reducers: {
-    // метод для изменеия текущей страницы
     setCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
     },

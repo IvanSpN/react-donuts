@@ -14,7 +14,6 @@ export type SortListItem = {
   sortProperty: 'rating' | 'price' | 'title';
 };
 
-// массив параметров для сортировки
 export const sortList: SortListItem[] = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
@@ -25,27 +24,22 @@ export const Sort: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const sortRef = useRef<HTMLDivElement>(null);
 
-  //используем состояние выбранной категории из filterSlice
   const { selectedOption, orderSort } = useSelector(
     (state: RootState) => state.filter
   );
 
-  // стейт для POPUP открыть/закрыть
   const [activePopUp, setActivePopUp] = React.useState(false);
 
-  // метод выбора метода сортировки
   const handlerSortOptions = (obj: SortListItem) => {
     dispatch(setSelectedOption(obj));
 
     setActivePopUp(false);
   };
 
-  // метод для смены метода сортировки "ASC-DESC"
   const orderMethod = () => {
     dispatch(setOrderSort(orderSort === '-' ? '' : '-'));
   };
 
-  // скрываем ПОПап при клике мимо него
   React.useEffect(() => {
     const handleClickOutside: EventListenerOrEventListenerObject = (event) => {
       let path;

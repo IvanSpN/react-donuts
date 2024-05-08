@@ -27,23 +27,18 @@ type TItem = {
 const Cart: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  // статус запроса и ошибки
   const { status, error, totalPrice, totalCount } = useSelector(selectCart);
 
-  // состояние корзины с бэка
   const { cartItems } = useSelector(selectCart);
 
-  // получаем корзину с бэка, изменяем в Redux
   const getCartItems = async () => {
     dispatch(fetchCartItems());
   };
 
-  // очищаем корзину с бэка
   const handlerClearCart = () => {
     dispatch(fetchClearCart());
   };
 
-  // вызываем функцию запроса корзины с бэка
   React.useEffect(() => {
     getCartItems();
   }, []);

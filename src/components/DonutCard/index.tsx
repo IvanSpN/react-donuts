@@ -6,14 +6,11 @@ import { fetchAddToCart } from '../../redux/cart/asyncActions';
 import MyButton from '../UI/button/MyButton';
 import { getPrice } from '../../utils/getPrice';
 
+import styles from './DonutCard.module.scss';
 import { useAppDispatch } from '../../redux/store';
 
-import styles from './DonutCard.module.scss';
-
-// список для типов продукта
 export const typeList: string[] = ['Стандарт', 'Макси'];
 
-// список для размера продукта
 export const sizeList: number[] = [3, 6, 9];
 
 type DonutCardProps = {
@@ -46,10 +43,8 @@ export const DonutCard: React.FC<DonutCardProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  // стейт выбора типа продукта
   const [activeType, setActiveType] = React.useState<number>(0);
 
-  // стейт выбора размера продукта
   const [activeSize, setActiveSize] = React.useState<number>(0);
 
   const obj: objInt = {
@@ -116,7 +111,7 @@ export const DonutCard: React.FC<DonutCardProps> = ({
       <div className={styles.PriceAndAdd}>
         <div className={styles.donutPrice}>от {price} р.</div>
         <MyButton
-          title="Добавить товар в корзину"
+          title="Добавление товар"
           className={styles.btn}
           onClick={() => handlerAddToCart()}
         >

@@ -28,28 +28,20 @@ const Home: React.FC = () => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  // используем стейт сортировки по методу ASC-DESC из RTK
   const { orderSort, searchValue, activeCategory, selectedOption } =
     useSelector(selectFilter);
 
-  // пагинация: текущая страница, возвращает бэк,  // пагинация: всего страниц, возвращает бэк
-  const { currentPage, totalPages } = useSelector(selectDonuts);
+  const { currentPage, totalPages, items } = useSelector(selectDonuts);
 
-  // пагинация: кол-во отображаемых товаров на одной странице, устанавливаем сами
   const [limit] = React.useState(4);
 
-  // запрос на получение всех пончиков
   const getDonuts = async () => {
-    // запрос на фильтрацию по категориям
     const category = activeCategory > 0 ? `&category=${activeCategory}` : '';
 
-    // запрос на сортировку
     const sortBy = `&sortBy=${orderSort + selectedOption.sortProperty}`;
 
-    // запрос на поиск по title
     const title = `title=*${searchValue.toLowerCase()}`;
 
-    // используем ф-ю из Redux для получения всех товаров и передаем в нее параметры
     dispatch(
       fetchDonuts({
         category,
@@ -65,16 +57,12 @@ const Home: React.FC = () => {
     dispatch(fetchCartItems());
   }, []);
 
-  /*проверка для пагинации, когда на первой странице выбираем 2ю стр-цу,
-   затем переходим в категорию где всего 1 стр, задаем текущую страницу "1"*/
   React.useEffect(() => {
     if (totalPages < 2) {
       dispatch(setCurrentPage(1));
     }
   }, [totalPages]);
 
-  /* приводим к строке объект, который храниться в Redux в качестве состояния, узнает, что в Redux и вшивает это в ссылку,
-  если изменили параметры и был первый рендер*/
   useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
@@ -89,8 +77,6 @@ const Home: React.FC = () => {
     isMounted.current = true;
   }, [activeCategory, orderSort, selectedOption, currentPage]);
 
-  /*проверяем есть ли параметры в URL и сохраняем их в объект, если был первый рендер,
-то проверяем URL-параметры и сохранаем в Redux*/
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
@@ -110,7 +96,6 @@ const Home: React.FC = () => {
     }
   }, []);
 
-  // если был первый рендер, то запрашиваем все пончики
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!isSearch.current) {
@@ -125,8 +110,8 @@ const Home: React.FC = () => {
         <Category />
         <Sort />
       </div>
+      {items.length !== 0 ? <DonutsBlock /> : <h2>Ничего не найдено</h2>}
 
-      <DonutsBlock />
       <Paginate
         limit={limit}
         onChangePage={(number) => dispatch(setCurrentPage(number))}

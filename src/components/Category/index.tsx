@@ -11,16 +11,12 @@ export const Category: React.FC = React.memo(() => {
   useWhyDidYouUpdate('Category', {});
   const dispatch = useDispatch();
 
-  // используем состояние выбранной категории из filterSlice
   const { activeCategory } = useSelector(selectFilter);
-
-  // метод изменения категории по клику
 
   const onClickCategory = React.useCallback((index: number): void => {
     dispatch(setActiveCategory(index));
   }, []);
 
-  // массив категорий для сортировки
   const categories: string[] = [
     'Все',
     'Классические',

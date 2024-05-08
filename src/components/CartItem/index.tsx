@@ -46,12 +46,10 @@ export const CartItem: React.FC<TCartItemProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  // Удаляем элемент из корзины
   const handlerDeleteItem = (id: number) => {
     dispatch(fetchDeleteCartItem(id));
   };
 
-  // увеличиваем добавленный товар в корзине
   const handlerIncrementItemCart = () => {
     const newObj: ICartItemObjForIncAndDecr = {
       title,
@@ -67,7 +65,6 @@ export const CartItem: React.FC<TCartItemProps> = ({
     dispatch(fetchIncrementItemCart(newObj));
   };
 
-  // уменьшаем добавленный товар в корзине
   const handlerDecrementItemCart = () => {
     const newObj: ICartItemObjForIncAndDecr = {
       title,

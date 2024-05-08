@@ -3,39 +3,31 @@ import { RootState } from '../store';
 import { IFilterOptions, IFilterSlice, TSelectOptions } from './types';
 
 const initialState: IFilterSlice = {
-  //категория товаров
   activeCategory: 0,
 
-  //параметры для сортировки товаров
   selectedOption: {
     name: 'алфавиту',
     sortProperty: 'title',
   },
 
-  // параметр сориторовки "по убыванию/возрастанию"
   orderSort: '',
 
-  // стейт поиска
   searchValue: '',
 
-  //текущая страница
   currentPage: 0,
 };
 const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    // метод для изменения категории товаров
     setActiveCategory(state, action: PayloadAction<number>) {
       state.activeCategory = action.payload;
     },
 
-    // метод для изменения параметра "по убыванию/возрастанию"
     setOrderSort(state, action: PayloadAction<string>) {
       state.orderSort = action.payload;
     },
 
-    // метод для изменеия выбора параметров сортировки товаров
     setSelectedOption(state, action: PayloadAction<TSelectOptions>) {
       state.selectedOption = action.payload;
     },
@@ -44,7 +36,6 @@ const filterSlice = createSlice({
       state.searchValue = action.payload;
     },
 
-    // метод для измениния стейтов при сохранении параметров в URL
     setFilters(state, action: PayloadAction<IFilterOptions>) {
       if (Object.keys(action.payload).length) {
         state.selectedOption = action.payload.selectedOption;
@@ -62,7 +53,6 @@ const filterSlice = createSlice({
       }
     },
 
-    // метод для сброса всех фильтров
     resetFilters(state) {
       state.activeCategory = initialState.activeCategory;
       state.selectedOption = initialState.selectedOption;
